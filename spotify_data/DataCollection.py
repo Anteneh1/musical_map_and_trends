@@ -7,8 +7,10 @@ from selenium import webdriver
 
 def init_browser():
     """ Initialize test browser session for scraping """
-    executable_path = {'executable_path': 'chromedriver.exe'}
+    executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
+    #executable_path = {"executable_path": "chromedriver"}
     return Browser('chrome', **executable_path, headless=False)
+    #return Browser("chrome", **executable_path, headless=False)
 
 def test():
     """ Returns static cities array, for testing purposes """
@@ -17,7 +19,7 @@ def test():
     return cities
 
 def scrape_spotify_info(limiting, limit):
-    """ Obtain Spotify ID information for each track in city-specific playlists 
+    """ Obtain Spotify ID information for each track in city-specific playlists
         (for selected cities from Cities.py)
 
         Args:
@@ -50,7 +52,7 @@ def scrape_spotify_info(limiting, limit):
         from bs4 import BeautifulSoup as bs
 
         # Pass the HTML output from the splinter session
-        html = browser.html  
+        html = browser.html
         soup = bs(html, 'html.parser')
 
         # Get iFRAME URL for the actual playlist, and visit it
@@ -61,7 +63,7 @@ def scrape_spotify_info(limiting, limit):
         time.sleep(6)
 
         # Pass the HTML output from the splinter session
-        html = browser.html  
+        html = browser.html
         soup = bs(html, 'html.parser')
 
         # Collect playlist markup
@@ -74,13 +76,13 @@ def scrape_spotify_info(limiting, limit):
         for result in playlist:
             # Retrieve song information (LI)
             song_info = result.contents[1]
-            
+
             # Strip out the 'data-uri attribute from the track info
             data_uri = result.attrs["data-uri"]
-            
+
             # Get the track_id from the above (strip out actual ID value)
-            track_id = str.split(data_uri, ":")[2] 
-            
+            track_id = str.split(data_uri, ":")[2]
+
             # Get the Artist and song name
             artist_name = song_info.contents[1].contents[0]
             song_name = song_info.contents[0].rstrip("\n").strip()
@@ -106,11 +108,11 @@ def scrape_spotify_info(limiting, limit):
 
         # Set list of top artists
         top_artists = list(top_artist_listing)
-        
+
         # Loop through all top artists, and assign their first track_id, which we'll need for Spotify API lookup
         #
         #    Artist object in the format:
-        #    [ 
+        #    [
         #        { 'Bobby Johnson': [ 'lakjdsfasf', '23kjlksjsdf', '2kjas90ksads'] },
         #        { 'Jane Doe': ['0kkjdkjsfasf', '9jkkjlksjsdf', '83skas90ksads'] },
         #        ...
@@ -119,7 +121,7 @@ def scrape_spotify_info(limiting, limit):
         for artist in top_artists:
             dfTrack = dfMergedArtists.loc[dfMergedArtists["Artist"] == artist]
             artist_tracks = list(dfTrack["track_id"])
-            
+
             # Build artists object for this city
             artist_info = { "artist": artist, "tracks": artist_tracks }
             artists.append(artist_info)
