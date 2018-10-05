@@ -4,7 +4,8 @@ from splinter import Browser
 import pandas as pd
 import time
 from selenium import webdriver
-
+import json
+import pprint
 def init_browser():
     """ Initialize test browser session for scraping """
     executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
@@ -46,7 +47,7 @@ def scrape_spotify_info(limiting, limit):
         browser.visit(city_url)
 
         # Wait for page to load
-        time.sleep(3)
+        time.sleep(5)
 
         # Import Beautiful Soup to parse through HTML of page
         from bs4 import BeautifulSoup as bs
@@ -60,77 +61,70 @@ def scrape_spotify_info(limiting, limit):
         browser.visit(iframe)
 
         # Wait for page to load
-        time.sleep(6)
+        time.sleep(10)
 
         # Pass the HTML output from the splinter session
         html = browser.html
         soup = bs(html, 'html.parser')
+        playlist = json.loads(soup.find('script', id = 'resource').text)
+        #pprint.pprint(playlist)
 
-        # Collect playlist markup
-        playlist = soup.select('ul.track-list')[0].contents
+        #print (playlist['tracks']['items'][0]['track']['album']['artists'][0]['name'])
+        #print (playlist['tracks']['items'][0]['track']['id'])
+        #print (playlist['tracks']['items'][0]['track']['name'])
 
-        # Arrays for song names and artists
         songs = []
 
-        # Loop through all songs in playlist to grab song names and artist info
-        for result in playlist:
-            # Retrieve song information (LI)
-            song_info = result.contents[1]
+        track_id = playlist['tracks']['items'][0]['track']['id']
 
-            # Strip out the 'data-uri attribute from the track info
-            data_uri = result.attrs["data-uri"]
+        # Get the Artist and song name
+        artist_name = playlist['tracks']['items'][0]['track']['album']['artists'][0]['name']
+        song_name = playlist['tracks']['items'][0]['track']['name']
+        songs.append({
+                "artist": artist_name,
+                "name": song_name,
+                "track_id": track_id
+        })
 
-            # Get the track_id from the above (strip out actual ID value)
-            track_id = str.split(data_uri, ":")[2]
+    # Determine top arists
+    dfArtists = pd.DataFrame(songs)
 
-            # Get the Artist and song name
-            artist_name = song_info.contents[1].contents[0]
-            song_name = song_info.contents[0].rstrip("\n").strip()
-            songs.append({
-                    "artist": artist_name,
-                    "name": song_name,
-                    "track_id": track_id
-            })
+    # Get the unique list of artists
+    dfUniqueArtists = pd.DataFrame(dfArtists["artist"].value_counts()).reset_index()
 
-        # Determine top arists
-        dfArtists = pd.DataFrame(songs)
+    # Merge above dataframes so we can keep track of the top artists' track IDs
+    dfMergedArtists = pd.merge(dfArtists, dfUniqueArtists, left_on = 'artist', right_on = 'index')
 
-        # Get the unique list of artists
-        dfUniqueArtists = pd.DataFrame(dfArtists["artist"].value_counts()).reset_index()
+    # Rename columns
+    dfMergedArtists = dfMergedArtists.rename(columns={"artist_x": "Artist","name": "Track Name"})
+    dfMergedArtists = dfMergedArtists[["Artist", "Track Name", "track_id"]]
+    top_artist_listing = dfUniqueArtists["index"]
 
-        # Merge above dataframes so we can keep track of the top artists' track IDs
-        dfMergedArtists = pd.merge(dfArtists, dfUniqueArtists, left_on = 'artist', right_on = 'index')
+    # Set list of top artists
+    top_artists = list(top_artist_listing)
 
-        # Rename columns
-        dfMergedArtists = dfMergedArtists.rename(columns={"artist_x": "Artist","name": "Track Name"})
-        dfMergedArtists = dfMergedArtists[["Artist", "Track Name", "track_id"]]
-        top_artist_listing = dfUniqueArtists["index"]
+    # Loop through all top artists, and assign their first track_id, which we'll need for Spotify API lookup
+    #
+    #    Artist object in the format:
+    #    [
+    #        { 'Bobby Johnson': [ 'lakjdsfasf', '23kjlksjsdf', '2kjas90ksads'] },
+    #        { 'Jane Doe': ['0kkjdkjsfasf', '9jkkjlksjsdf', '83skas90ksads'] },
+    #        ...
+    #    ]
+    artists = []
+    for artist in top_artists:
+        dfTrack = dfMergedArtists.loc[dfMergedArtists["Artist"] == artist]
+        artist_tracks = list(dfTrack["track_id"])
 
-        # Set list of top artists
-        top_artists = list(top_artist_listing)
+        # Build artists object for this city
+        artist_info = { "artist": artist, "tracks": artist_tracks }
+        artists.append(artist_info)
 
-        # Loop through all top artists, and assign their first track_id, which we'll need for Spotify API lookup
-        #
-        #    Artist object in the format:
-        #    [
-        #        { 'Bobby Johnson': [ 'lakjdsfasf', '23kjlksjsdf', '2kjas90ksads'] },
-        #        { 'Jane Doe': ['0kkjdkjsfasf', '9jkkjlksjsdf', '83skas90ksads'] },
-        #        ...
-        #    ]
-        artists = []
-        for artist in top_artists:
-            dfTrack = dfMergedArtists.loc[dfMergedArtists["Artist"] == artist]
-            artist_tracks = list(dfTrack["track_id"])
+    # Update our object array value with top artists for this city
+    city["top_artists"] = artists
 
-            # Build artists object for this city
-            artist_info = { "artist": artist, "tracks": artist_tracks }
-            artists.append(artist_info)
+    # Update object array with all track_ids for this city
+    city["track_ids"] = list(dfArtists["track_id"])
 
-        # Update our object array value with top artists for this city
-        city["top_artists"] = artists
-
-        # Update object array with all track_ids for this city
-        city["track_ids"] = list(dfArtists["track_id"])
-
-    # Return the array of objects we just built
+# Return the array of objects we just built
     return cities

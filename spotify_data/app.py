@@ -150,29 +150,29 @@ def scrapeSpotify():
                 tracks.append(track_info)
 
                 # For the top 10 artists, determine the song with the highest popularity
-                if current_track_artist in top_10_artists:
-                    # Determine most popular track
-                    if highest_popularity < current_track_popularity:
-                        most_popular_track = trk
-                        highest_popularity = current_track_popularity
-                        most_popular_artist = current_track_artist
-                        most_popular_track_name = current_track_name
-
-                #print("most popular track: " + most_popular_track)
-                #print("highest popularity: " + str(highest_popularity))
-                #print("current track: " + trk )
-
-            # Update current city value with updated 'tracks' array info
-            city["track_ids"] = tracks
-
-            # Update current city's 'top_track' field with the most popular track info
-            mostpopular_track_info = {
-                            "track": most_popular_track,
-                            "popularity": highest_popularity,
-                            "artist": most_popular_artist,
-                            "name": most_popular_track_name
-                        }
-            city["top_track"] = mostpopular_track_info
+            #     if current_track_artist in top_10_artists:
+            #         # Determine most popular track
+            #         if highest_popularity < current_track_popularity:
+            #             most_popular_track = trk
+            #             highest_popularity = current_track_popularity
+            #             most_popular_artist = current_track_artist
+            #             most_popular_track_name = current_track_name
+            #
+            #     #print("most popular track: " + most_popular_track)
+            #     #print("highest popularity: " + str(highest_popularity))
+            #     #print("current track: " + trk )
+            #
+            # # Update current city value with updated 'tracks' array info
+            # city["track_ids"] = tracks
+            #
+            # # Update current city's 'top_track' field with the most popular track info
+            #         mostpopular_track_info = {
+            #                 "track": most_popular_track,
+            #                 "popularity": highest_popularity,
+            #                 "artist": most_popular_artist,
+            #                 "name": most_popular_track_name
+            #             }
+            #                  city["top_track"] = mostpopular_track_info
 
             if debugging == True:
                 # **** Print out resulting object (TESTING ONLY) ****
@@ -222,7 +222,7 @@ def connectToMongo():
 
         Returns: db -- database connection object
     """
-    mongodb_uri = "mongodb://localhost:27017" 
+    mongodb_uri = "mongodb://localhost:27017"
     client = pymongo.MongoClient(mongodb_uri)
     return client.insights_db  # Declare the DB
 

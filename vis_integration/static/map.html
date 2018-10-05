@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Geographical Music Insights: Analysis of 15 cities by genre, race, and gender</title>
+
+  <!-- Leaflet CSS & JS references -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet-src.js"></script>
+  <script src="https://rawgit.com/ismyrnow/Leaflet.groupedlayercontrol/master/src/leaflet.groupedlayercontrol.js"></script>
+
+
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+  integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+  crossorigin=""></script>
+
+  <!--D3 cdn-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+
+
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="css/map_style.css">
+</head>
+
+<body>
+    <h1>Geographical Music Insights</h1>
+    <h4>A closer look at musical preferences across 15 cities  &mdash; based on Spotify streaming frequency.</h4>
+    <p><b>How to interact:</b></h5>
+    <ul>
+        <li>Click on any city to see its demographic breakdown, top streamed track, and top streamed artist.</li>
+  
+    </ul>
+    <p>When we visualize artist popularity in the context of physical location &amp; demographics, we can observe influences on musical preference! </p>
+
+    <!-- The div where we will inject our map -->
+    <div id="map"></div>
+    <!-- API key -->
+    <script type="text/javascript" src="js/config.js"></script>
+    <!-- Leaflet map building JS logic -->
+    <script type="text/javascript" src="js/logic.js"></script>
+</body>
+</html>
