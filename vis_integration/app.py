@@ -57,7 +57,7 @@ def connectToMongo():
 
         Returns: db -- database connection object
     """
-    mongodb_uri = "mongodb://0920_kd:Oct2018@ds223763.mlab.com:23763"
+    mongodb_uri = "mongodb://0920_kd:Oct2018@ds223763.mlab.com:23763/heroku_9ck3snh5"
     client = pymongo.MongoClient(mongodb_uri)
     return client.heroku_9ck3snh5  # Declare the DB
 
