@@ -1,7 +1,7 @@
 import os
 import pprint
 import pymongo
-from flask import Flask, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect
 from bson import json_util, ObjectId
 import json
 
