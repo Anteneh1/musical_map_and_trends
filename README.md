@@ -1,20 +1,20 @@
-#  Popular Music Insights
+# Musical map and trends
 
 ![Concert](readmeimg/concert.png)
 
 ## Analysis and visualization of musical tastes by artists, songs, genres, lyrics, demographics, race, and gender
 
-**View the [Deployed app on Heroku](https://mighty-taiga-44531.herokuapp.com/static/Index.html).**
+**View the [Deployed app on Heroku]**
 
 ### Outline
 
-I. A geographical examination of the musical preferences across 15 cities -- filtered by artist genre, race, and gender -- based on Spotify streaming frequency. 
+I. A geographical examination of the musical preferences across 15 cities by artist genre, race, and gender -- based on Spotify streaming frequency. 
 * Example of the interactive map that examines the musical preferences for particular cities
-![Map](readmeimg/map.png)
+
 
 II. Emotional influences and lyrical content mapped by analysis of 70 years of top-charting Billboard songs by genre. 
 * Example of the emotional attributes of hit songs over the last 70 years: 
-![bubble_plot](readmeimg/bubble.png)
+
 
 ### Technologies Employed
 
@@ -34,11 +34,11 @@ II. Emotional influences and lyrical content mapped by analysis of 70 years of t
 
 # File Descriptions
 
-**[wordcloud_data](https://github.com/Anaisdg/Popular_Music_Insights/tree/master/wordcloud_data)**
+**[wordcloud_data]
 
 Data retrieval and analysis of lyrics from [lyrics.wikia.com](http://lyrics.wikia.com) scraped HTML; generation of word cloud images from WordCloud (using matplotlib/Python).
 
-**[emotion_analysis](https://github.com/Anaisdg/Popular_Music_Insights/tree/master/emotion_analysis)**
+**[emotion_analysis]
 
 Data retrieval and analysis of lyrics data supporting the Plotly bubble charts in ```vis_integration/static/bubble_charts```
 
@@ -71,10 +71,10 @@ Data retrieval and analysis of lyrics data supporting the Plotly bubble charts i
 
 ### Integration Directories
 
-**[vis_integration](https://github.com/Anaisdg/Popular_Music_Insights/tree/master/vis_integration)**
+**[vis_integration]
 * Integration of all visualizations, with ```app.py``` to run Flask app.
 
-**[spotify_data](https://github.com/Anaisdg/Popular_Music_Insights/tree/master/spotify_data)**
+**[spotify_data]
 * Data retrieval, analysis, and storage of artist, genre, song, gender, race, and city demographic data - in support of the interactive Leaflet.js map. 
 
 ### Additional Information
@@ -82,19 +82,6 @@ Data retrieval and analysis of lyrics data supporting the Plotly bubble charts i
 #### Inspiration for map visualization
 * [Spotify Insights Blog](https://insights.spotify.com/us/2016/12/07/musical-map-of-the-world-2-0/)
 
-**[proposal_img](https://github.com/Anaisdg/Popular_Music_Insights/tree/master/proposal_img)**
-* Inspirational images for the project
-
-**[readmeimg](https://github.com/Anaisdg/Popular_Music_Insights/tree/master/readmeimg)**
-* Images used for this Readme
-
-### Development Directories
-
-**[frontend](https://github.com/Anaisdg/Popular_Music_Insights/tree/master/frontend)**
-* Landing page working directory
-
-**[visualizations](https://github.com/Anaisdg/Popular_Music_Insights/tree/master/visualizations)**
-* Visualization pages working directory
 
 
 
