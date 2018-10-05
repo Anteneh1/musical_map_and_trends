@@ -11,6 +11,12 @@ flask_debugging = True # Set to True when in Flask debug mode (DISABLE BEFORE DE
 # Initialize Flask
 app = Flask(__name__)
 
+
+@app.route("/")
+def welcome():
+    # Return to the dashboard
+return render_template("static/index.html")
+
 # Route that outputs database results
 @app.route("/getCitiesFromMongo")
 def getCitiesFromMongo():
