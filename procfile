@@ -1,3 +1,4 @@
 
 worker: python vis_integration/app.py
-web: gunicorn -b 0.0.0.0:$PORT app:app
+web: gunicorn vis_integration.app:app
+
