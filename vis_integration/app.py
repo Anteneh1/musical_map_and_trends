@@ -14,7 +14,7 @@ app = Flask(__name__)
 @app.route("/")
 def welcome():
     # Return to the dashboard
- return render_template("static/index.html")
+ return render_template("index.html")
 
 # Route that outputs database results
 @app.route("/getCitiesFromMongo")
